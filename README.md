@@ -1,7 +1,7 @@
 # Rust-Cli-Breakout
-A rust implementation of breakout, in a cli.
+A basic rust implementation of breakout, in a cli.
 
-![breakout img](breakout.img)
+![breakout img](breakout.png)
 
 ## Controls
 You use 'a' and 'd' to move left and right.
