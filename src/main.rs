@@ -1,4 +1,4 @@
-use std::io::{stdout, Stdout, Write, Read};
+use std::io::{stdout, Read, Stdout, Write};
 use termion::raw::{IntoRawMode, RawTerminal};
 
 const WIDTH: u16 = 150;
@@ -53,27 +53,28 @@ fn main() {
 
         if stdin.read(&mut input).is_ok() {
             match input[0] {
-                b'q' => { // optimize to use result
+                b'q' => {
+                    // optimize to use result
                     write!(stdout, "{}", termion::clear::All).expect("io error!");
                     stdout.flush().unwrap();
                     println!("Game Over");
-                    break
-                },
+                    break;
+                }
                 b'd' => {
                     if paddle_coord.0 != 2 {
-                        paddle_coord.0 += 5;
+                        paddle_coord.0 += 7;
                     }
-                },
+                }
                 b'a' => {
                     if paddle_coord.0 != WIDTH - 2 {
-                        paddle_coord.0 -= 5;
+                        paddle_coord.0 -= 7;
                     }
-                },
+                }
                 _ => {}
             }
             stdout.flush().unwrap();
         }
-        
+
         result = progress(&mut field, &mut paddle_coord, &mut ball, &mut blocks);
         draw(&mut field, &mut stdout, &mut paddle_coord, &mut ball);
 
@@ -82,14 +83,14 @@ fn main() {
                 write!(stdout, "{}", termion::clear::All).expect("io error!");
                 stdout.flush().unwrap();
                 println!("Well Done, You Finished!");
-                break
-            },
+                break;
+            }
             State::Over => {
                 write!(stdout, "{}", termion::clear::All).expect("io error!");
                 stdout.flush().unwrap();
                 println!("Game Over");
-                break
-            },
+                break;
+            }
             _ => {}
         }
 
@@ -97,11 +98,14 @@ fn main() {
         write!(stdout, "{}", termion::clear::All).expect("io error!");
         stdout.flush().unwrap();
     }
-
-    
 }
 
-fn progress(field: &mut Vec<Vec<Object>>, paddle_coord: &mut (u16, u16), ball: &mut Ball, blocks: &mut u32) -> State {
+fn progress(
+    field: &mut Vec<Vec<Object>>,
+    paddle_coord: &mut (u16, u16),
+    ball: &mut Ball,
+    blocks: &mut u32,
+) -> State {
     let new_ball_y: u16;
     let new_ball_x: u16;
 
@@ -156,18 +160,8 @@ fn progress(field: &mut Vec<Vec<Object>>, paddle_coord: &mut (u16, u16), ball: &
         }
         Object::DZone => return State::Over,
         Object::None => {
-            if (new_ball_x == paddle_coord.0 - 2
-                || new_ball_x == paddle_coord.0 - 1
-                || new_ball_x == paddle_coord.0
-                || new_ball_x == paddle_coord.0 + 1
-                || new_ball_x == paddle_coord.0 + 2
-                || new_ball_x == paddle_coord.0 + 3
-                || new_ball_x == paddle_coord.0 - 3
-                || new_ball_x == paddle_coord.0 + 4
-                || new_ball_x == paddle_coord.0 - 4
-                || new_ball_x == paddle_coord.0 - 5
-                || new_ball_x == paddle_coord.0 + 5
-            )
+            if new_ball_x <= paddle_coord.0 + 5
+                && new_ball_x >= paddle_coord.0 - 5
                 && new_ball_y == paddle_coord.1
             {
                 *ball = Ball {
@@ -224,80 +218,11 @@ fn draw(
 
     write!(stdout, "{}O", termion::cursor::Goto(ball.x, ball.y)).unwrap();
     stdout.flush().unwrap();
+    
     write!(
         stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 + 1, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 - 1, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 - 2, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 + 2, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 - 3, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 + 3, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 + 4, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 - 4, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
+        "{}___________",
         termion::cursor::Goto(paddle_coord.0 - 5, paddle_coord.1)
-    )
-    .unwrap();
-    stdout.flush().unwrap();
-    write!(
-        stdout,
-        "{}_",
-        termion::cursor::Goto(paddle_coord.0 + 5, paddle_coord.1)
     )
     .unwrap();
     stdout.flush().unwrap();
