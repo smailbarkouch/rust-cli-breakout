@@ -93,7 +93,7 @@ fn main() {
             _ => {}
         }
 
-        std::thread::sleep(std::time::Duration::from_millis(60));
+        std::thread::sleep(std::time::Duration::from_millis(40));
         write!(stdout, "{}", termion::clear::All).expect("io error!");
         stdout.flush().unwrap();
     }
