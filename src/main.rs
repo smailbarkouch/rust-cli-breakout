@@ -160,7 +160,14 @@ fn progress(field: &mut Vec<Vec<Object>>, paddle_coord: &mut (u16, u16), ball: &
                 || new_ball_x == paddle_coord.0 - 1
                 || new_ball_x == paddle_coord.0
                 || new_ball_x == paddle_coord.0 + 1
-                || new_ball_x == paddle_coord.0 + 2)
+                || new_ball_x == paddle_coord.0 + 2
+                || new_ball_x == paddle_coord.0 + 3
+                || new_ball_x == paddle_coord.0 - 3
+                || new_ball_x == paddle_coord.0 + 4
+                || new_ball_x == paddle_coord.0 - 4
+                || new_ball_x == paddle_coord.0 - 5
+                || new_ball_x == paddle_coord.0 + 5
+            )
                 && new_ball_y == paddle_coord.1
             {
                 *ball = Ball {
@@ -249,6 +256,48 @@ fn draw(
         stdout,
         "{}_",
         termion::cursor::Goto(paddle_coord.0 + 2, paddle_coord.1)
+    )
+    .unwrap();
+    stdout.flush().unwrap();
+    write!(
+        stdout,
+        "{}_",
+        termion::cursor::Goto(paddle_coord.0 - 3, paddle_coord.1)
+    )
+    .unwrap();
+    stdout.flush().unwrap();
+    write!(
+        stdout,
+        "{}_",
+        termion::cursor::Goto(paddle_coord.0 + 3, paddle_coord.1)
+    )
+    .unwrap();
+    stdout.flush().unwrap();
+    write!(
+        stdout,
+        "{}_",
+        termion::cursor::Goto(paddle_coord.0 + 4, paddle_coord.1)
+    )
+    .unwrap();
+    stdout.flush().unwrap();
+    write!(
+        stdout,
+        "{}_",
+        termion::cursor::Goto(paddle_coord.0 - 4, paddle_coord.1)
+    )
+    .unwrap();
+    stdout.flush().unwrap();
+    write!(
+        stdout,
+        "{}_",
+        termion::cursor::Goto(paddle_coord.0 - 5, paddle_coord.1)
+    )
+    .unwrap();
+    stdout.flush().unwrap();
+    write!(
+        stdout,
+        "{}_",
+        termion::cursor::Goto(paddle_coord.0 + 5, paddle_coord.1)
     )
     .unwrap();
     stdout.flush().unwrap();
