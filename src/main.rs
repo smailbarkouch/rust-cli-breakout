@@ -1,7 +1,7 @@
 use std::io::{stdout, Stdout, Write, Read};
 use termion::raw::{IntoRawMode, RawTerminal};
 
-const WIDTH: u16 = 100;
+const WIDTH: u16 = 150;
 const HEIGHT: u16 = 40;
 
 #[derive(Clone)]
