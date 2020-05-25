@@ -1,5 +1,5 @@
 [package]
-name = "rust-breakout"
+name = "rust-cli-breakout"
 version = "0.1.0"
 authors = ["Smail <SmailBarkouch1@gmail.com>"]
 edition = "2018"
